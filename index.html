@@ -1,192 +1,134 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Радіо Хвиля Перемоги</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: black;
-      font-family: Arial, sans-serif;
-    }
-
-    #video-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(60%);
-    }
-
-    .content {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хвиля Перемоги</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: hwb(0 0% 100%);
+    color: white;
+  }
+  header {
+    background-color: #1114ce;
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+  }
+  header h1 {
+    animation: colorChange 10s infinite;
+  }
+  @keyframes colorChange {
+    0% { color: #ff2d55; }
+    50% { color: #ffffff; }
+    100% { color: #4cd964; }
+  }
+  nav ul {
+    padding: 0;
+    list-style: none;
+  }
+  nav ul li {
+    display: inline;
+    margin-right: 20px;
+  }
+  nav ul li a {
+    text-decoration: none;
+    color: #fff;
+  }
+  main {
+    padding: 15px;
+  }
+  footer {
+    background-color: hwb(64 17% 0%);
+    color: #fff;
+    text-align: center;
+    padding: 30px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  audio {
+    max-width: 300px;
+    width: 100%;
+    display: block;
+    margin: 20px auto;
+  }
+  .scrolling-banner {
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 10px;
+    margin: 20px 0;
+    font-size: 16px;
+  }
+  .scrolling-banner::before {
+    content: 'ПУТІН ХУЙЛО! ВСІ МОСКАЛІ ПІДАРАСИ! ВСЕ БУДЕ УКРАЇНА! УКРАЇНА ПОНАД УСЕ! ПУТІН ХУЙЛО! ВСІ МОСКАЛІ ПІДАРАСИ! ВСЕ БУДЕ УКРАЇНА! УКРАЇНА ПОНАД УСЕ!';
+    display: inline-block;
+    animation: scroll-banner 40s linear infinite;
+  }
+  @keyframes scroll-banner {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  @media screen and (max-width: 768px) {
+    nav ul li {
+      display: block;
+      margin: 10px 0;
       text-align: center;
     }
-
-    .title {
-      font-size: 4em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    .scrolling-banner {
+      font-size: 12px;
     }
-
-    .visualizer-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    #visualizer {
-      width: 100%;
-      max-width: 800px;
-      height: 200px;
-      background-color: transparent; /* Прозорий фон */
-      margin-bottom: 10px;
-    }
-
-    #volumeControl {
-      width: 100%;
-      max-width: 800px;
-      margin-bottom: 20px;
-    }
-
-    .facebook-button {
-      font-size: 1.5em;
-      padding: 10px 20px;
-      background-color: #3b5998;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-
-    .facebook-button:hover {
-      background-color: #314e86;
-    }
-
-    @media screen and (max-width: 768px) {
-      .title {
-        font-size: 2.5em;
-      }
-      #visualizer {
-        height: 150px;
-      }
-      #volumeControl {
-        width: 90%;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
-  <!-- Фонове відео -->
-  <video id="video-background" autoplay muted loop>
-    <source src="your-video-file.mp4" type="video/mp4">
-  </video>
+<div class="scrolling-banner"></div>
 
-  <!-- Контент -->
-  <div class="content">
-    <div class="title">Радіо Хвиля Перемоги</div>
-    <section id="player">
-      <h2>Прямий ефір</h2>
-      <div class="visualizer-container">
-        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-        <canvas id="visualizer"></canvas>
-        <button id="playButton">Play</button>
-      </div>
-      <audio id="audio" crossorigin="anonymous">
-        <source src="https://stream.zeno.fm/sikg4vgnv2jvv" type="audio/mpeg">
-        Ваш браузер не підтримує аудіо елемент.
-      </audio>
+<header>
+    <h1>Хвиля Перемоги</h1>
+    <nav>
+        <ul>
+            <!-- Меню навігації тут -->
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="about">
+        <h2>Про нас</h2>
+        <p>"Хвиля Перемоги" – це радіо, де українська сучасна музика відіграє ключову роль, об'єднуючи жанри та культури.</p>
     </section>
-    <!-- Кнопка Facebook -->
-    <a href="https://www.facebook.com/groups/czinfo360" target="_blank" class="facebook-button">Приєднатися до нас на Facebook</a>
-  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const audio = document.getElementById('audio');
-    const playButton = document.getElementById('playButton');
-    const volumeControl = document.getElementById('volumeControl');
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
+    <section id="schedule">
+        <h2>Розклад</h2>
+        <p>Наша радіостанція працює круглосуточно, безперервно відтворюючи найсвіжіші треки та вічні хіти від відомих та нових артистів.</p>
+    </section>
 
-    let audioContext;
-    let analyser;
-    let source;
-    let dataArray;
-    let bufferLength;
+    <section id="player">
+        <h2>Прямий ефір</h2>
+        <audio controls>
+            <source src="https://stream.zeno.fm/sikg4vgnv2jvv" type="audio/mpeg">
+            Ваш браузер не підтримує аудіо елемент.
+        </audio>
+    </section>
+    <a href="https://linktr.ee/Sergiy_Budniy" target="_blank">
+        <button class="buymeacoffee">НА КАВУ</button>
+    </a>
+    <section id="contact">
+        <h2>Контакти</h2>
+        <p>Для зв'язку з нами використовуйте електронну пошту: <a href="mailto:wavevictory@protonmail.com">wavevictory@protonmail.com</a></p>
+    </section>
+</main>
 
-    function setupAudioContext() {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        source = audioContext.createMediaElementSource(audio);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-        analyser.fftSize = 256;
-        bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-    }
-
-    function visualize() {
-        function draw() {
-            requestAnimationFrame(draw);
-            analyser.getByteFrequencyData(dataArray);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const barWidth = (canvas.width / bufferLength) * 2.5;
-            let barHeight;
-            let x = 0;
-            for (let i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i];
-                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, '#0057b7');
-                gradient.addColorStop(1, '#ffd700');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
-                x += barWidth + 1;
-            }
-        }
-        draw();
-    }
-
-    playButton.addEventListener('click', () => {
-        if (audio.paused) {
-            if (!audioContext) {
-                setupAudioContext();
-                visualize();
-            }
-            audio.play();
-            playButton.textContent = 'Pause';
-        } else {
-            audio.pause();
-            playButton.textContent = 'Play';
-        }
-    });
-
-    volumeControl.addEventListener('input', (event) => {
-        audio.volume = event.target.value;
-    });
-
-    audio.addEventListener('pause', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-});
-</script>
+<footer>
+    <p>&copy; 2024 Хвиля Перемоги</p>
+</footer>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Радіо-Хвиля Пермоги</title>
+  <title>Радіо - Зіпсована Хвиля</title>
   <style>
     body, html {
       margin: 0;
@@ -34,38 +34,24 @@
       justify-content: center;
       z-index: 1;
       color: white;
-      padding: 10px;
     }
 
     .title {
       font-size: 2em;
       margin-bottom: 20px;
-      text-align: center;
     }
 
     .player, #alternative-player {
-      max-width: 400px;
-      width: 100%;
       margin-bottom: 20px;
     }
 
     .facebook-button, .switch-button {
-      max-width: 400px;
-      width: 100%;
       margin-bottom: 20px;
     }
 
     @media screen and (max-width: 768px) {
       .title {
-        font-size: 1.5em;
-      }
-
-      .content {
-        padding: 5px;
-      }
-
-      .facebook-button, .switch-button {
-        font-size: 0.8em;
+        font-size: 3em;
       }
     }
   </style>
@@ -81,56 +67,97 @@
   <div class="content">
 
     <!-- Animated Title -->
-    <div class="title">Радіо-Хвиля Пермоги</div>
+    <div class="title">Радіо - Зіпсована Хвиля</div>
 
-    <!-- Default Player -->
-    <audio id="default-player" class="player" controls>
-      <source src="http://15404.cloudrad.io:9020/live" type="audio/mpeg">
-    </audio>
-
-    <!-- Alternative Player -->
-    <iframe id="alternative-player" class="player" style="display:none" src="https://cdn2.cloudrad.io/RadioZipsuvanaHvilya/live/p1-popup.html"></iframe>
-
-    <!-- Switch Player Button -->
-    <button class="switch-button" onclick="switchPlayer()">Переключити плеєр</button>
+    <section id="player">
+        <h2>Прямий ефір</h2>
+        <div id="visualizer-container">
+            <canvas id="visualizer"></canvas>
+            <button id="playButton">Play</button>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+        </div>
+        <audio id="audio" crossorigin="anonymous">
+            <source src="https://stream.zeno.fm/sikg4vgnv2jvv" type="audio/mpeg">
+            Ваш браузер не підтримує аудіо елемент.
+        </audio>
+    </section>
 
     <!-- Facebook button -->
-    <a href="https://https://www.facebook.com/wwavevictory" target="_blank">
+    <a href="https://www.facebook.com/groups/czinfo360" target="_blank">
       <button class="facebook-button">Приєднатися до нас на Facebook</button>
     </a>
 
-    <!-- Widgets -->
-    <div id="stream_info">
-      <p>Поточна пісня: <span id="stream_info_song">Завантаження...</span></p>
-      <p>Назва потоку: <span id="stream_info_title">Завантаження...</span></p>
-      <p>Бітрейт: <span id="stream_info_bitrate">Завантаження...</span></p>
-      <p>Поточні слухачі: <span id="stream_info_listeners">Завантаження...</span></p>
-      <p>Максимальна кількість слухачів: <span id="stream_info_maxlisteners">Завантаження...</span></p>
-      <p>Статус джерела: <span id="stream_info_source">Завантаження...</span></p>
-      <p>Останні треки: <span id="stream_info_songhistory">Завантаження...</span></p>
-    </div>
-
   </div>
 
-  <!-- Scripts -->
-  <script language="javascript" type="text/javascript" src="https://cdn2.cloudrad.io/RadioZipsuvanaHvilya/live/streaminfo.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      setTimeout(switchPlayer, 1000); // затримка в 1000 мс
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('playButton');
+    const volumeControl = document.getElementById('volumeControl');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+
+    let audioContext;
+    let analyser;
+    let source;
+    let dataArray;
+    let bufferLength;
+
+    function setupAudioContext() {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        source = audioContext.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        analyser.fftSize = 256;
+        bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+    }
+
+    function visualize() {
+        function draw() {
+            requestAnimationFrame(draw);
+            analyser.getByteFrequencyData(dataArray);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let barHeight;
+            let x = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i];
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#0057b7'); // синій
+                gradient.addColorStop(1, '#ffd700'); // жовтий
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+                x += barWidth + 1;
+            }
+        }
+        draw();
+    }
+
+    playButton.addEventListener('click', () => {
+        if (audio.paused) {
+            if (!audioContext) {
+                setupAudioContext();
+                visualize();
+            }
+            audio.play();
+            playButton.textContent = 'Pause';
+        } else {
+            audio.pause();
+            playButton.textContent = 'Play';
+        }
     });
 
-    function switchPlayer() {
-      const defaultPlayer = document.getElementById('default-player');
-      const alternativePlayer = document.getElementById('alternative-player');
-      
-      if (defaultPlayer.style.display !== 'none') {
-        defaultPlayer.style.display = 'none';
-        alternativePlayer.style.display = 'block';
-      } else {
-        defaultPlayer.style.display = 'block';
-        alternativePlayer.style.display = 'none';
-      }
-    }
-  </script>
+    volumeControl.addEventListener('input', (event) => {
+        audio.volume = event.target.value;
+    });
+
+    audio.addEventListener('pause', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+});
+</script>
 </body>
 </html>

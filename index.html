@@ -51,6 +51,7 @@
     #visualizer {
       width: 500px;
       height: 150px;
+      background-color: transparent; /* Прозорий фон */
       margin-bottom: 10px;
     }
 
@@ -135,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function draw() {
             requestAnimationFrame(draw);
             analyser.getByteFrequencyData(dataArray);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Очищуємо полотно перед малюванням
             const barWidth = (canvas.width / bufferLength) * 2.5;
             let barHeight;
             let x = 0;

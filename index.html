@@ -10,6 +10,10 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
     }
 
     #video-background {
@@ -23,17 +27,13 @@
     }
 
     .content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 1;
       color: white;
+      text-align: center;
     }
 
     .title {
@@ -41,17 +41,39 @@
       margin-bottom: 20px;
     }
 
-    .player, #alternative-player {
+    .visualizer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin-bottom: 20px;
     }
 
-    .facebook-button, .switch-button {
+    #visualizer {
+      width: 500px;
+      height: 150px;
+      margin-bottom: 10px;
+    }
+
+    #volumeControl {
+      width: 100%;
+      max-width: 500px;
       margin-bottom: 20px;
+    }
+
+    .facebook-button {
+      margin-top: 20px;
     }
 
     @media screen and (max-width: 768px) {
       .title {
-        font-size: 3em;
+        font-size: 1.5em;
+      }
+      #visualizer {
+        width: 100%;
+        height: 100px;
+      }
+      #volumeControl {
+        width: 90%;
       }
     }
   </style>
@@ -65,28 +87,23 @@
 
   <!-- Content -->
   <div class="content">
-
-    <!-- Animated Title -->
     <div class="title">Радіо - Зіпсована Хвиля</div>
-
     <section id="player">
-        <h2>Прямий ефір</h2>
-        <div id="visualizer-container">
-            <canvas id="visualizer"></canvas>
-            <button id="playButton">Play</button>
-            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-        </div>
-        <audio id="audio" crossorigin="anonymous">
-            <source src="https://stream.zeno.fm/sikg4vgnv2jvv" type="audio/mpeg">
-            Ваш браузер не підтримує аудіо елемент.
-        </audio>
+      <h2>Прямий ефір</h2>
+      <div class="visualizer-container">
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+        <canvas id="visualizer"></canvas>
+        <button id="playButton">Play</button>
+      </div>
+      <audio id="audio" crossorigin="anonymous">
+        <source src="https://stream.zeno.fm/sikg4vgnv2jvv" type="audio/mpeg">
+        Ваш браузер не підтримує аудіо елемент.
+      </audio>
     </section>
-
     <!-- Facebook button -->
     <a href="https://www.facebook.com/groups/czinfo360" target="_blank">
       <button class="facebook-button">Приєднатися до нас на Facebook</button>
     </a>
-
   </div>
 
 <script>
@@ -118,8 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function draw() {
             requestAnimationFrame(draw);
             analyser.getByteFrequencyData(dataArray);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             const barWidth = (canvas.width / bufferLength) * 2.5;
             let barHeight;
             let x = 0;
